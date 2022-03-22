@@ -6,7 +6,6 @@ var digestRequest = require('request-digest')(config.config().liferay.user
 const helper = require('../helper');
 const request = require('request');
 
-
 async function getContentStructureWebDav(structureId) {
   return new Promise(function (resolve, reject) {
     const DigestFetch = require('digest-fetch')
@@ -18,7 +17,6 @@ async function getContentStructureWebDav(structureId) {
         resolve(data));
   });
 }
-
 async function getContentStructures() {
   return new Promise(function (resolve, reject) {
     var options = {
@@ -55,7 +53,6 @@ async function getSites() {
     });
   });
 }
-
 async function getRootDocuments() {
   return new Promise(function (resolve, reject) {
     var options = {
@@ -74,9 +71,68 @@ async function getRootDocuments() {
     });
   });
 }
+async function getRootFolders() {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/document-folders?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+async function getSubFolders(folderId) {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-delivery//v1.0/document-folders/${folderId}/document-folders?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+async function getSubFoldersFiles(folderId) {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-delivery//v1.0/document-folders/${folderId}/documents?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+
+
 module.exports = {
   getContentStructures,
   getRootDocuments,
   getSites,
-  getContentStructureWebDav
+  getRootFolders,
+  getSubFolders,
+  getContentStructureWebDav,
+  getSubFoldersFiles
 }
