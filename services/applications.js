@@ -125,6 +125,24 @@ async function getSubFoldersFiles(folderId) {
     });
   });
 }
+async function getVocabularies() {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-admin-taxonomy/v1.0/sites/${config.config().siteId}/taxonomy-vocabularies?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 
 
 module.exports = {
@@ -134,5 +152,6 @@ module.exports = {
   getRootFolders,
   getSubFolders,
   getContentStructureWebDav,
-  getSubFoldersFiles
+  getSubFoldersFiles,
+  getVocabularies
 }
