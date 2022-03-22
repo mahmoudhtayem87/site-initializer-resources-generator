@@ -1,5 +1,5 @@
 const thumbnail = require('./thumbnail');
-const webcontent = require('./webcontent');
+const webcontent = require('./webContentStructure.js');
 const documents = require('./documents');
 
 

@@ -126,6 +126,46 @@ async function getSubFoldersFiles(folderId) {
   });
 }
 
+async function getJournalArticleById(articleId)
+{
+  var url = `${config.config().liferay.host}/api/jsonws/journal.journalarticle/fetch-article/group-id/${config.config().siteId}/article-id/${articleId}`;
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': url,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+async function getJournalArticleByStructureId(id)
+{
+  var url = `${config.config().liferay.host}/o/headless-delivery/v1.0/content-structures/${id}/structured-contents?page=0&pageSize=999999`;
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': url,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 
 module.exports = {
   getContentStructures,
@@ -134,5 +174,7 @@ module.exports = {
   getRootFolders,
   getSubFolders,
   getContentStructureWebDav,
-  getSubFoldersFiles
+  getSubFoldersFiles,
+  getJournalArticleByStructureId,
+  getJournalArticleById
 }

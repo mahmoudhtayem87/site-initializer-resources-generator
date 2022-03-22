@@ -1,5 +1,7 @@
 var dir = './output/resources/site-initializer/ddm-structures';
+const webContentArticle = require('./webContentArticle.js');
 const applications = require('../services/applications');
+const helper = require('../helper');
 const config = require('../config');
 fs = require('fs');
 var builder = require('xmlbuilder');
@@ -11,7 +13,7 @@ async function getXMLData(element) {
     console.info(`Processing Web Content Structure ${structureName}`);
     var root = builder.create('root');
     root = root.ele("structure");
-    root = root.ele("name").text(element.name);
+    root = root.ele("name").text(helper.replaceSpace(element.name));
     root = root.up();
     root = root.ele("description").text(element.description == "" ? "" : element.description);
     root = root.up();
@@ -30,10 +32,12 @@ async function createFile(filedata, filename) {
 }
 async function start() {
     var data = await applications.getContentStructures();
+    //console.log(data);
     console.info(`${data.length} Web Content Structures Found!`);
     for (let index = 0; index < data.length; index++) {
         const element = data[index];
         getXMLData(element);
+        webContentArticle.start(element);
     }
 }
 module.exports = {
