@@ -4,11 +4,9 @@ const config = require('../config');
 var dir = './output/META-INF/resources/images';
 
 
-
-
 async function start() {
     var url = config.config().liferay.host + "/web" + config.config().friendlyUrlPath;
-    console.log('url: ' + url);
+    console.log('Generating thumbnail from ' + url);
 
     (async () => {
         await new Pageres({delay: 2})
@@ -16,7 +14,7 @@ async function start() {
             .dest(dir)
             .run();
     
-        console.log('Finished generating screenshots!');
+        console.log('Finished generating thumbnail');
     })();
 }
 module.exports = {
