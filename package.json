@@ -1,0 +1,28 @@
+{
+  "name": "site-initializer-helper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mahmoud Hussein Tayem",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "cli-select": "^1.1.2",
+    "digest-client": "^0.0.7",
+    "digest-fetch": "^1.2.1",
+    "fast-xml-parser": "^4.0.7",
+    "inquirer": "^8.2.1",
+    "mysql2": "^2.3.3",
+    "pageres": "^6.3.1",
+    "node-digest-auth-client": "^1.0.6",
+    "node-fetch": "^2.6.7",
+    "node-fetchv3": "npm:node-fetch@^3.2.3",
+    "prompts": "^2.4.2",
+    "request": "^2.88.2",
+    "request-digest": "^1.0.13",
+    "xmlbuilder": "^15.1.1"
+  }
+}
