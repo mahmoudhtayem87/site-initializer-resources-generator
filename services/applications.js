@@ -1,3 +1,7 @@
+/**
+ * @author Mahmoud Hussein Tayem
+ * @description in this file you will be injecting your code which will be responsible to call liferay apis
+ */
 const config = require('../config');
 
 var digestRequest = require('request-digest')(config.config().liferay.user
