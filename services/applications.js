@@ -125,7 +125,6 @@ async function getSubFoldersFiles(folderId) {
     });
   });
 }
-
 async function getJournalArticleById(articleId)
 {
   var url = `${config.config().liferay.host}/api/jsonws/journal.journalarticle/fetch-article/group-id/${config.config().siteId}/article-id/${articleId}`;
@@ -186,7 +185,46 @@ async function getWebContentTemplates()
     });
   });
 }
-
+async function getFragmentCollections()
+{
+  var url = `${config.config().liferay.host}/api/jsonws/fragment.fragmentcollection/get-fragment-collections/group-ids/${config.config().siteId}`;
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': url,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+async function getFragmentsByCollectionId(collectionId)
+{
+  var url = `${config.config().liferay.host}/api/jsonws/fragment.fragmententry/get-fragment-entries/fragment-collection-id/${collectionId}`;
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': url,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 module.exports = {
   getContentStructures,
   getRootDocuments,
@@ -197,5 +235,7 @@ module.exports = {
   getSubFoldersFiles,
   getJournalArticleByStructureId,
   getJournalArticleById,
-  getWebContentTemplates
+  getWebContentTemplates,
+  getFragmentsByCollectionId,
+  getFragmentCollections
 }
