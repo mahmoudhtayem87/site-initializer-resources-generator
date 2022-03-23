@@ -8,9 +8,9 @@ const fragments = require('./fragments');
 
 function start()
 {
-    //thumbnail.start();
-    //webcontent.start();
-    //documents.start();
+    thumbnail.start();
+    webcontent.start();
+    documents.start();
     fragments.start();
 }
 
