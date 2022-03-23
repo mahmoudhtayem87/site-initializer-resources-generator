@@ -1,7 +1,7 @@
 /**
  * @author Mahmoud Hussein Tayem
  * @description this job is used to pull all of the site documents and media 
- * into the site site initializer required format, this include the folders and sub folders
+ * into the site initializer required format, this include the folders and sub folders
  */
 const Axios = require('axios').default;
 var request = require('request');

@@ -39,6 +39,42 @@ async function getContentStructures() {
     });
   });
 }
+async function getMyUser() {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-admin-user/v1.0/my-user-account`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve((JSON.parse(response.body)));
+    });
+  });
+}
+async function getUserAccountJSONAPIs(userId) {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/api/jsonws/user/get-user-by-id/user-id/${userId}`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve((JSON.parse(response.body)));
+    });
+  });
+}
 async function getSites() {
   return new Promise(function (resolve, reject) {
     var options = {
@@ -229,6 +265,49 @@ async function getFragmentsByCollectionId(collectionId)
     });
   });
 }
+
+async function getWidgetDisplayTemplates()
+{
+  var url = `${config.config().liferay.host}/api/jsonws/ddm.ddmtemplate/get-templates?companyId=${config.config().companyId}&groupIds=${config.config().siteId}&classNameIds=&classPKs=0&resourceClassNameId=41966&start=0&end=9999&-orderByComparator=`;
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': url,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+
+async function getResourceClassName(key)
+{
+  var url = `${config.config().liferay.host}/api/jsonws/classname/fetch-by-class-name-id/class-name-id/${key}`;
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': url,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+
 module.exports = {
   getContentStructures,
   getRootDocuments,
@@ -241,5 +320,9 @@ module.exports = {
   getJournalArticleById,
   getWebContentTemplates,
   getFragmentsByCollectionId,
-  getFragmentCollections
+  getFragmentCollections,
+  getMyUser,
+  getUserAccountJSONAPIs,
+  getWidgetDisplayTemplates,
+  getResourceClassName
 }
