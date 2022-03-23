@@ -12,19 +12,6 @@ fs = require('fs');
 var builder = require('xmlbuilder');
 const { XMLParser } = require('fast-xml-parser');
 
-async function processSubFolderFile(element, basePath) {
-    var fileName = `${element.title}`;
-    fileName = fileName.indexOf('.') === -1 ? `${fileName}.${element.fileExtension}` : fileName;
-    fileName = `${basePath}/${fileName}`
-    try {
-        await downloadFile(`${config.config().liferay.host}/${element.contentUrl}`, `${fileName}`)
-    } catch (exp) {
-        fs.unlink(`${fileName}`, function (err) {
-            if (err) throw err;
-        });
-        console.error(`Error while downloading file: ${element.title}`)
-    }
-}
 async function processFragment(basePath, element) {
     var fragmentDir = `${basePath}/${element.name}`;
     await checkSubFolder(`${dir}/${fragmentDir}`);
@@ -90,50 +77,7 @@ async function start() {
         processCollection(rows[index]);
     }
 }
-async function downloadFile(fileUrl, outputLocationPath) {
-    const writer = fs.createWriteStream(outputLocationPath);
-    return Axios({
-        method: 'get',
-        url: fileUrl,
-        responseType: 'stream',
-    }).then(response => {
-        return new Promise((resolve, reject) => {
-            response.data.pipe(writer);
-            let error = null;
-            writer.on('error', err => {
-                error = err;
-                writer.close();
-                reject(err);
-            });
-            writer.on('close', () => {
-                if (!error) {
-                    resolve(true);
-                }
-            });
-        });
-    });
-}
-async function processRootFolders() {
-    var basePath = dir;
-    var rootFolders = (await applications.getRootFolders()).items;
-    for (index = 0; index < rootFolders.length; index++) {
-        processSubFolder(basePath, rootFolders[index]);
-    }
-}
-async function processSubFolder(basePath, folderEelement) {
-    basePath = `${basePath}/${folderEelement.name}`;
-    checkSubFolder(basePath);
-    if (folderEelement.numberOfDocumentFolders > 0) {
-        var subFolders = await applications.getSubFolders(folderEelement.id);
-        for (index = 0; index < subFolders.items.length; index++) {
-            processSubFolder(basePath, subFolders.items[index]);
-        }
-    }
-    var files = await applications.getSubFoldersFiles(folderEelement.id);
-    for (index = 0; index < files.items.length; index++) {
-        processSubFolderFile(files.items[index], basePath);
-    }
-}
+
 module.exports = {
     start
 }
