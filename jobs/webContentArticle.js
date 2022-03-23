@@ -1,3 +1,8 @@
+/**
+ * @author Mahmoud Hussein Tayem
+ * @description this job is used to pull all of the Journal Articles for a specific Web Content Structure
+ * and store them in the site site initializer required format
+ */
 var dir = './output/resources/site-initializer/journal-articles';
 const applications = require('../services/applications');
 const config = require('../config');

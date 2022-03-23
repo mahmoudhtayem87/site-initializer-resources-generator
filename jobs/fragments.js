@@ -1,3 +1,8 @@
+/**
+ * @author Mahmoud Hussein Tayem
+ * @description this job is used to pull all of the site fragments collections and its fragments and 
+ * store them in the site site initializer required format
+ */
 const Axios = require('axios').default;
 var request = require('request');
 var dir = './output/resources/site-initializer/fragments';
