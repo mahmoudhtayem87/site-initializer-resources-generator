@@ -10,7 +10,7 @@ async function createFolder(dir) {
       fs.mkdirSync(dir, { recursive: true });
     }
 }
-async function createFile(filedata, filename) {
+async function createFile(filedata, filename, dir) {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
     }
@@ -26,18 +26,41 @@ async function createVocabulary(vocabulary) {
         "name": vocabulary.name,
         "viewableBy": "Anyone"
     };
-    await createFile(JSON.stringify(vocJson), vocabulary.name.toLowerCase() + ".json");
-    await createFolder(dir + "/" + vocabulary.name.toLowerCase());
+    await createFile(JSON.stringify(vocJson), vocabulary.name.toLowerCase() + ".json",dir);
+    const vocabularyDir = dir + "/" + vocabulary.name.toLowerCase();
+    await createFolder(vocabularyDir);
+    await createCategories(vocabularyDir,vocabulary.id);
+}
+async function createCategories(dir, vocabularyId) {
+    var data = await applications.getCategories(vocabularyId);
+    console.log(data);
+    for (let index = 0; index < data.items.length; index++) {
+        const category = data.items[index];
+        if (category.numberOfTaxonomyCategories > 0) {
+            // create folder for children
+            await createFolder(dir + "/" + category.name);
+            // TODO call recursive/traversing function
+        }
+        // create json
+        let categoryJson = {
+            "description": category.description,
+            "externalReferenceCode": category.name.toUpperCase().replace(/\s/g, ''),
+            "name": category.name,
+            "viewableBy": "Anyone"
+        };
+        createFile(JSON.stringify(categoryJson), category.name + ".json",dir);
+    }
 }
 async function start() {
     console.log('Creating vocabularies');
     await createFolder(dir);
     var data = await applications.getVocabularies();
-    console.log(data);
+
     //loop items and create json file and folder
     for (let index = 0; index < data.items.length; index++) {
         const vocabulary = data.items[index];
-        createVocabulary(vocabulary);
+        await createVocabulary(vocabulary);
+        
     }
 
 }

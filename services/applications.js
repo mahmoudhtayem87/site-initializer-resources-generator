@@ -143,6 +143,24 @@ async function getVocabularies() {
     });
   });
 }
+async function getCategories(vocabularyId) {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/${vocabularyId}/taxonomy-categories?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 
 
 module.exports = {
@@ -153,5 +171,6 @@ module.exports = {
   getSubFolders,
   getContentStructureWebDav,
   getSubFoldersFiles,
-  getVocabularies
+  getVocabularies,
+  getCategories
 }
