@@ -6,6 +6,7 @@
 const thumbnail = require('./thumbnail');
 const webcontent = require('./webContentStructure.js');
 const documents = require('./documents');
+const vocabularies = require('./vocabularies');
 const channel = require('./commerce-channel');
 const catalogs = require('./commerce-catalogs');
 const commerceOptions = require('./commerce-options');
@@ -17,7 +18,8 @@ async function start() {
 
     await setupUserInformation();
     widget.start();
-    //thumbnail.start();
+    thumbnail.start();
+    vocabularies.start();
     webcontent.start();
     documents.start();
     fragments.start();

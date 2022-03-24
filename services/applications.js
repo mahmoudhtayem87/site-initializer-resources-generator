@@ -27,7 +27,8 @@ async function getContentStructures() {
       'method': 'GET',
       'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/content-structures`,
       'headers': {
-        'Authorization': helper.getAuthHeader(config)
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
       }
     };
     request(options, function (error, response) {
@@ -80,7 +81,8 @@ async function getSites() {
       'method': 'GET',
       'url': `${config.config().liferay.host}/o/headless-admin-user/v1.0/my-user-account/sites`,
       'headers': {
-        'Authorization': helper.getAuthHeader(config)
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
       }
     };
     request(options, function (error, response) {
@@ -97,7 +99,8 @@ async function getRootDocuments() {
       'method': 'GET',
       'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/documents?page=0&pageSize=999999`,
       'headers': {
-        'Authorization': helper.getAuthHeader(config)
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
       }
     };
     request(options, function (error, response) {
@@ -108,43 +111,6 @@ async function getRootDocuments() {
     });
   });
 }
-
-async function getCommerceCatalogs() {
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': `${config.config().liferay.host}/o/headless-commerce-admin-catalog/v1.0/catalogs?page=0&pageSize=999999`,
-      'headers': {
-        'Authorization': helper.getAuthHeader(config)
-      }
-    };
-    request(options, function (error, response) {
-      if (error) {
-        reject(error)
-      };
-      resolve(JSON.parse(response.body));
-    });
-  });
-}
-
-async function getCommerceChannels() {
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': `${config.config().liferay.host}/o/headless-commerce-admin-channel/v1.0/channels?page=0&pageSize=999999`,
-      'headers': {
-        'Authorization': helper.getAuthHeader(config)
-      }
-    };
-    request(options, function (error, response) {
-      if (error) {
-        reject(error)
-      };
-        resolve(JSON.parse(response.body).items);
-    });
-  });
-}
-
 async function getRootFolders() {
   return new Promise(function (resolve, reject) {
     var options = {
@@ -342,6 +308,99 @@ async function getResourceClassName(key)
   });
 }
 
+async function getLayouts(privateLayout)
+{
+  var url = `${config.config().liferay.host}/api/jsonws/layout/get-layouts/group-id/${config.config().siteId}/private-layout/${privateLayout}/keywords/types/start/0/end/99999/-order-by-comparator`;
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': url,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+
+
+async function getCommerceCatalogs() {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-commerce-admin-catalog/v1.0/catalogs?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': helper.getAuthHeader(config)
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+
+async function getCommerceChannels() {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-commerce-admin-channel/v1.0/channels?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': helper.getAuthHeader(config)
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+        resolve(JSON.parse(response.body).items);
+    });
+  });
+}
+async function getCategories(vocabularyId) {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/${vocabularyId}/taxonomy-categories?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+async function getSubCategories(parentCatId) {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-admin-taxonomy/v1.0/taxonomy-categories/${parentCatId}/taxonomy-categories?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 async function getCommerceOptions() {
   var url = `${config.config().liferay.host}/o/headless-commerce-admin-catalog/v1.0/options?page=0&pageSize=999999`;
   return new Promise(function (resolve, reject) {
@@ -360,7 +419,6 @@ async function getCommerceOptions() {
       });
   });
 }
-
 module.exports = {
   getContentStructures,
   getRootDocuments,
