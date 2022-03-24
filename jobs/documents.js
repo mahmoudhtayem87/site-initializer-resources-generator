@@ -3,9 +3,9 @@ var request = require('request');
 var dir = './output/resources/site-initializer/documents/group';
 const applications = require('../services/applications');
 const config = require('../config');
-fs = require('fs');
 var builder = require('xmlbuilder');
 const { XMLParser } = require('fast-xml-parser');
+const helper = require('../helper');
 
 
 async function processFile(element) {
@@ -20,14 +20,10 @@ async function processFile(element) {
     }
     
 }
-async function checkFolder() {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-    }
-}
+
 async function start() {
     var rows = await applications.getRootDocuments();
-    await checkFolder();
+    await helper.checkFolder(dir);
     if(rows == null || rows.items == null || rows.items.length <=0)
     {
       console.info(`No Documents and Media found!`);

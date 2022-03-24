@@ -14,6 +14,10 @@ function setFriendlyUrlPath(friendlyUrlPath)
 {
     global._config.friendlyUrlPath = friendlyUrlPath;
 }
+function setCommereChannel(commerceChannelId)
+{
+    global._config.commerceChannelId = commerceChannelId;
+}
 function config()
 {
     return global._config;
@@ -22,5 +26,6 @@ module.exports = {
     config,
     setup,
     setSiteId,
-    setFriendlyUrlPath
+    setFriendlyUrlPath,
+    setCommereChannel
 };
