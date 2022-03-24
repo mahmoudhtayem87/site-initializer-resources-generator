@@ -2,148 +2,238 @@
  * @author Mahmoud Hussein Tayem
  * @description in this file you will be injecting your code which will be responsible to call liferay apis
  */
-const config = require('../config');
+ const config = require('../config');
 
-var digestRequest = require('request-digest')(config.config().liferay.user
-  , config.config().liferay.password);
-
-const helper = require('../helper');
-const request = require('request');
-
-async function getContentStructureWebDav(structureId) {
-  return new Promise(function (resolve, reject) {
-    const DigestFetch = require('digest-fetch')
-    const client = new DigestFetch(config.config().liferay.user, config.config().liferay.password, { algorithm: 'MD5' })
-    client.fetch(`${config.config().liferay.host}/webdav/${config.config().friendlyUrlPath}/journal/Structures/${structureId}`, {})
-    .then(res =>
-       res.json()
-       ).then(data => 
-        resolve(data));
-  });
-}
-async function getContentStructures() {
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/content-structures`,
-      'headers': {
-        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-          + ":" + config.config().liferay.password).toString("base64")
-      }
-    };
-    request(options, function (error, response) {
-      if (error) {
-        reject(error)
-      };
-      resolve((JSON.parse(response.body)).items);
-    });
-  });
-}
-async function getSites() {
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': `${config.config().liferay.host}/o/headless-admin-user/v1.0/my-user-account/sites`,
-      'headers': {
-        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-          + ":" + config.config().liferay.password).toString("base64")
-      }
-    };
-    request(options, function (error, response) {
-      if (error) {
-        reject(error)
-      };
-      resolve((JSON.parse(response.body)).items);
-    });
-  });
-}
-async function getRootDocuments() {
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/documents?page=0&pageSize=999999`,
-      'headers': {
-        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-          + ":" + config.config().liferay.password).toString("base64")
-      }
-    };
-    request(options, function (error, response) {
-      if (error) {
-        reject(error)
-      };
-      resolve(JSON.parse(response.body));
-    });
-  });
-}
-async function getRootFolders() {
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/document-folders?page=0&pageSize=999999`,
-      'headers': {
-        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-          + ":" + config.config().liferay.password).toString("base64")
-      }
-    };
-    request(options, function (error, response) {
-      if (error) {
-        reject(error)
-      };
-      resolve(JSON.parse(response.body));
-    });
-  });
-}
-async function getSubFolders(folderId) {
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': `${config.config().liferay.host}/o/headless-delivery//v1.0/document-folders/${folderId}/document-folders?page=0&pageSize=999999`,
-      'headers': {
-        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-          + ":" + config.config().liferay.password).toString("base64")
-      }
-    };
-    request(options, function (error, response) {
-      if (error) {
-        reject(error)
-      };
-      resolve(JSON.parse(response.body));
-    });
-  });
-}
-async function getSubFoldersFiles(folderId) {
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': `${config.config().liferay.host}/o/headless-delivery//v1.0/document-folders/${folderId}/documents?page=0&pageSize=999999`,
-      'headers': {
-        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-          + ":" + config.config().liferay.password).toString("base64")
-      }
-    };
-    request(options, function (error, response) {
-      if (error) {
-        reject(error)
-      };
-      resolve(JSON.parse(response.body));
-    });
-  });
-}
-<<<<<<< HEAD
-async function getVocabularies() {
+ var digestRequest = require('request-digest')(config.config().liferay.user
+   , config.config().liferay.password);
+ 
+ const helper = require('../helper');
+ const request = require('request');
+ 
+ async function getContentStructureWebDav(structureId) {
+   return new Promise(function (resolve, reject) {
+     const DigestFetch = require('digest-fetch')
+     const client = new DigestFetch(config.config().liferay.user, config.config().liferay.password, { algorithm: 'MD5' })
+     client.fetch(`${config.config().liferay.host}/webdav/${config.config().friendlyUrlPath}/journal/Structures/${structureId}`, {})
+     .then(res =>
+        res.json()
+        ).then(data => 
+         resolve(data));
+   });
+ }
+ async function getContentStructures() {
+   return new Promise(function (resolve, reject) {
+     var options = {
+       'method': 'GET',
+       'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/content-structures`,
+       'headers': {
+         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+           + ":" + config.config().liferay.password).toString("base64")
+       }
+     };
+     request(options, function (error, response) {
+       if (error) {
+         reject(error)
+       };
+       resolve((JSON.parse(response.body)).items);
+     });
+   });
+ }
+ async function getSites() {
+   return new Promise(function (resolve, reject) {
+     var options = {
+       'method': 'GET',
+       'url': `${config.config().liferay.host}/o/headless-admin-user/v1.0/my-user-account/sites`,
+       'headers': {
+         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+           + ":" + config.config().liferay.password).toString("base64")
+       }
+     };
+     request(options, function (error, response) {
+       if (error) {
+         reject(error)
+       };
+       resolve((JSON.parse(response.body)).items);
+     });
+   });
+ }
+ async function getRootDocuments() {
+   return new Promise(function (resolve, reject) {
+     var options = {
+       'method': 'GET',
+       'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/documents?page=0&pageSize=999999`,
+       'headers': {
+         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+           + ":" + config.config().liferay.password).toString("base64")
+       }
+     };
+     request(options, function (error, response) {
+       if (error) {
+         reject(error)
+       };
+       resolve(JSON.parse(response.body));
+     });
+   });
+ }
+ async function getRootFolders() {
+   return new Promise(function (resolve, reject) {
+     var options = {
+       'method': 'GET',
+       'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/document-folders?page=0&pageSize=999999`,
+       'headers': {
+         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+           + ":" + config.config().liferay.password).toString("base64")
+       }
+     };
+     request(options, function (error, response) {
+       if (error) {
+         reject(error)
+       };
+       resolve(JSON.parse(response.body));
+     });
+   });
+ }
+ async function getSubFolders(folderId) {
+   return new Promise(function (resolve, reject) {
+     var options = {
+       'method': 'GET',
+       'url': `${config.config().liferay.host}/o/headless-delivery//v1.0/document-folders/${folderId}/document-folders?page=0&pageSize=999999`,
+       'headers': {
+         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+           + ":" + config.config().liferay.password).toString("base64")
+       }
+     };
+     request(options, function (error, response) {
+       if (error) {
+         reject(error)
+       };
+       resolve(JSON.parse(response.body));
+     });
+   });
+ }
+ async function getSubFoldersFiles(folderId) {
+   return new Promise(function (resolve, reject) {
+     var options = {
+       'method': 'GET',
+       'url': `${config.config().liferay.host}/o/headless-delivery//v1.0/document-folders/${folderId}/documents?page=0&pageSize=999999`,
+       'headers': {
+         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+           + ":" + config.config().liferay.password).toString("base64")
+       }
+     };
+     request(options, function (error, response) {
+       if (error) {
+         reject(error)
+       };
+       resolve(JSON.parse(response.body));
+     });
+   });
+ }
+ async function getJournalArticleById(articleId)
+ {
+   var url = `${config.config().liferay.host}/api/jsonws/journal.journalarticle/fetch-article/group-id/${config.config().siteId}/article-id/${articleId}`;
+   return new Promise(function (resolve, reject) {
+     var options = {
+       'method': 'GET',
+       'url': url,
+       'headers': {
+         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+           + ":" + config.config().liferay.password).toString("base64")
+       }
+     };
+     request(options, function (error, response) {
+       if (error) {
+         reject(error)
+       };
+       resolve(JSON.parse(response.body));
+     });
+   });
+ }
+ async function getJournalArticleByStructureId(id)
+ {
+   var url = `${config.config().liferay.host}/o/headless-delivery/v1.0/content-structures/${id}/structured-contents?page=0&pageSize=999999`;
+   return new Promise(function (resolve, reject) {
+     var options = {
+       'method': 'GET',
+       'url': url,
+       'headers': {
+         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+           + ":" + config.config().liferay.password).toString("base64")
+       }
+     };
+     request(options, function (error, response) {
+       if (error) {
+         reject(error)
+       };
+       resolve(JSON.parse(response.body));
+     });
+   });
+ }
+ async function getWebContentTemplates()
+ {
+   var url = `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/content-templates?page=0&pageSize=999999`;
+   return new Promise(function (resolve, reject) {
+     var options = {
+       'method': 'GET',
+       'url': url,
+       'headers': {
+         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+           + ":" + config.config().liferay.password).toString("base64")
+       }
+     };
+     request(options, function (error, response) {
+       if (error) {
+         reject(error)
+       };
+       resolve(JSON.parse(response.body));
+     });
+   });
+ }
+ async function getFragmentCollections()
+ {
+   var url = `${config.config().liferay.host}/api/jsonws/fragment.fragmentcollection/get-fragment-collections/group-ids/${config.config().siteId}`;
+   return new Promise(function (resolve, reject) {
+     var options = {
+       'method': 'GET',
+       'url': url,
+       'headers': {
+         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+           + ":" + config.config().liferay.password).toString("base64")
+       }
+     };
+     request(options, function (error, response) {
+       if (error) {
+         reject(error)
+       };
+       resolve(JSON.parse(response.body));
+     });
+   });
+ }
+ async function getFragmentsByCollectionId(collectionId)
+ {
+   var url = `${config.config().liferay.host}/api/jsonws/fragment.fragmententry/get-fragment-entries/fragment-collection-id/${collectionId}`;
+   return new Promise(function (resolve, reject) {
+     var options = {
+       'method': 'GET',
+       'url': url,
+       'headers': {
+         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+           + ":" + config.config().liferay.password).toString("base64")
+       }
+     };
+     request(options, function (error, response) {
+       if (error) {
+         reject(error)
+       };
+       resolve(JSON.parse(response.body));
+     });
+   });
+ }
+ async function getVocabularies() {
   return new Promise(function (resolve, reject) {
     var options = {
       'method': 'GET',
       'url': `${config.config().liferay.host}/o/headless-admin-taxonomy/v1.0/sites/${config.config().siteId}/taxonomy-vocabularies?page=0&pageSize=999999`,
-=======
-async function getJournalArticleById(articleId)
-{
-  var url = `${config.config().liferay.host}/api/jsonws/journal.journalarticle/fetch-article/group-id/${config.config().siteId}/article-id/${articleId}`;
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': url,
->>>>>>> 5a2d81e86e2ec5201af4bcebde64f7b2e91f6c4d
       'headers': {
         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
           + ":" + config.config().liferay.password).toString("base64")
@@ -157,20 +247,11 @@ async function getJournalArticleById(articleId)
     });
   });
 }
-<<<<<<< HEAD
 async function getCategories(vocabularyId) {
   return new Promise(function (resolve, reject) {
     var options = {
       'method': 'GET',
       'url': `${config.config().liferay.host}/o/headless-admin-taxonomy/v1.0/taxonomy-vocabularies/${vocabularyId}/taxonomy-categories?page=0&pageSize=999999`,
-=======
-async function getJournalArticleByStructureId(id)
-{
-  var url = `${config.config().liferay.host}/o/headless-delivery/v1.0/content-structures/${id}/structured-contents?page=0&pageSize=999999`;
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': url,
       'headers': {
         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
           + ":" + config.config().liferay.password).toString("base64")
@@ -184,13 +265,11 @@ async function getJournalArticleByStructureId(id)
     });
   });
 }
-async function getWebContentTemplates()
-{
-  var url = `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/content-templates?page=0&pageSize=999999`;
+async function getSubCategories(parentCatId) {
   return new Promise(function (resolve, reject) {
     var options = {
       'method': 'GET',
-      'url': url,
+      'url': `${config.config().liferay.host}/o/headless-admin-taxonomy/v1.0/taxonomy-categories/${parentCatId}/taxonomy-categories?page=0&pageSize=999999`,
       'headers': {
         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
           + ":" + config.config().liferay.password).toString("base64")
@@ -204,68 +283,20 @@ async function getWebContentTemplates()
     });
   });
 }
-async function getFragmentCollections()
-{
-  var url = `${config.config().liferay.host}/api/jsonws/fragment.fragmentcollection/get-fragment-collections/group-ids/${config.config().siteId}`;
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': url,
-      'headers': {
-        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-          + ":" + config.config().liferay.password).toString("base64")
-      }
-    };
-    request(options, function (error, response) {
-      if (error) {
-        reject(error)
-      };
-      resolve(JSON.parse(response.body));
-    });
-  });
-}
-async function getFragmentsByCollectionId(collectionId)
-{
-  var url = `${config.config().liferay.host}/api/jsonws/fragment.fragmententry/get-fragment-entries/fragment-collection-id/${collectionId}`;
-  return new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': url,
->>>>>>> 5a2d81e86e2ec5201af4bcebde64f7b2e91f6c4d
-      'headers': {
-        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-          + ":" + config.config().liferay.password).toString("base64")
-      }
-    };
-    request(options, function (error, response) {
-      if (error) {
-        reject(error)
-      };
-      resolve(JSON.parse(response.body));
-    });
-  });
-}
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 5a2d81e86e2ec5201af4bcebde64f7b2e91f6c4d
-module.exports = {
-  getContentStructures,
-  getRootDocuments,
-  getSites,
-  getRootFolders,
-  getSubFolders,
-  getContentStructureWebDav,
-  getSubFoldersFiles,
-<<<<<<< HEAD
-  getVocabularies,
-  getCategories
-=======
-  getJournalArticleByStructureId,
-  getJournalArticleById,
-  getWebContentTemplates,
-  getFragmentsByCollectionId,
-  getFragmentCollections
->>>>>>> 5a2d81e86e2ec5201af4bcebde64f7b2e91f6c4d
-}
+ module.exports = {
+   getContentStructures,
+   getRootDocuments,
+   getSites,
+   getRootFolders,
+   getSubFolders,
+   getContentStructureWebDav,
+   getSubFoldersFiles,
+   getJournalArticleByStructureId,
+   getJournalArticleById,
+   getWebContentTemplates,
+   getFragmentsByCollectionId,
+   getFragmentCollections,
+   getVocabularies,
+   getCategories,
+   getSubCategories
+ }
