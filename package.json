@@ -16,13 +16,17 @@
     "fast-xml-parser": "^4.0.7",
     "inquirer": "^8.2.1",
     "mysql2": "^2.3.3",
-    "pageres": "^6.3.1",
     "node-digest-auth-client": "^1.0.6",
     "node-fetch": "^2.6.7",
     "node-fetchv3": "npm:node-fetch@^3.2.3",
+    "pageres": "^6.3.1",
     "prompts": "^2.4.2",
     "request": "^2.88.2",
     "request-digest": "^1.0.13",
-    "xmlbuilder": "^15.1.1"
+    "xml-query": "^1.5.0",
+    "xml-reader": "^2.4.3",
+    "xmlbuilder": "^15.1.1",
+    "xmldom": "^0.6.0",
+    "xpath": "^0.0.32"
   }
 }

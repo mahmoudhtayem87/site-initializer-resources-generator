@@ -9,6 +9,7 @@ const config = require('./config');
 const start = require('./jobs/start');
 const docs = require('./jobs/documents');
 
+
 const applications = require('./services/applications');
 var fs = require('fs');
 
@@ -65,7 +66,3 @@ async function setup() {
 
 }
 setup();
-
-
-
-

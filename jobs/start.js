@@ -6,6 +6,7 @@
 const thumbnail = require('./thumbnail');
 const webcontent = require('./webContentStructure.js');
 const documents = require('./documents');
+const layout = require('./layout');
 const fragments = require('./fragments');
 const widget = require('./widgetTemplate.js');
 const applications = require('../services/applications');
@@ -14,6 +15,7 @@ async function start() {
 
     await setupUserInformation();
     widget.start();
+    layout.start();
     thumbnail.start();
     webcontent.start();
     documents.start();
