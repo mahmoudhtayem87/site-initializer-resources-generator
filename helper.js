@@ -3,7 +3,10 @@ const fs = require('fs');
 function getOffset(currentPage = 1, listPerPage) {
     return (currentPage - 1) * [listPerPage];
 }
-
+function replaceSpace(item)
+{
+    return item.split(' ').join('-');
+}
 function emptyOrRows(rows) {
     if (!rows) {
         return [];
@@ -30,6 +33,7 @@ async function createFile(filedata, dir, filename) {
 module.exports = {
     getOffset,
     emptyOrRows,
+    replaceSpace,
     getAuthHeader,
     checkFolder,
     createFile

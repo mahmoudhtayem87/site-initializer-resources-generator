@@ -1,3 +1,7 @@
+/**
+ * @author Jan Verweij 
+ * @description 
+ */
 const Pageres = require('pageres');
 const config = require('../config');
 

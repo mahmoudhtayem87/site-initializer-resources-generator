@@ -7,5 +7,7 @@ global._config = {
     },
     siteId:00,
     siteKey:'',
+    userId:'',
+    companyId:'',
     friendlyUrlPath:''
 };
