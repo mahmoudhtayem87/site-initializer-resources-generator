@@ -8,9 +8,9 @@ var request = require('request');
 var dir = './output/resources/site-initializer/documents/group';
 const applications = require('../services/applications');
 const config = require('../config');
-fs = require('fs');
 var builder = require('xmlbuilder');
 const { XMLParser } = require('fast-xml-parser');
+const helper = require('../helper');
 
 async function processSubFolderFile(element, basePath) {
   var fileName = `${element.title}`;
@@ -37,19 +37,10 @@ async function processFile(element) {
     console.error(`Error while downloading file: ${element.title}`)
   }
 }
-async function checkFolder() {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-}
-async function checkSubFolder(dir) {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-}
+
 async function start() {
   var rows = await applications.getRootDocuments();
-  await checkFolder();
+  await helper.checkFolder(dir);
   processRootFolders();
   if (rows == null || rows.items == null || rows.items.length <= 0) {
     console.info(`No Documents and Media found!`);
@@ -60,6 +51,7 @@ async function start() {
     processFile(rows.items[index]);
   }
 }
+
 async function downloadFile(fileUrl, outputLocationPath) {
   const writer = fs.createWriteStream(outputLocationPath);
   return Axios({
@@ -92,7 +84,7 @@ async function processRootFolders() {
 }
 async function processSubFolder(basePath, folderEelement) {
   basePath = `${basePath}/${folderEelement.name}`;
-  checkSubFolder(basePath);
+  await helper.checkFolder(basePath);
   if (folderEelement.numberOfDocumentFolders > 0) {
     var subFolders = await applications.getSubFolders(folderEelement.id);
     for (index = 0; index < subFolders.items.length; index++) {

@@ -7,6 +7,9 @@ const thumbnail = require('./thumbnail');
 const webcontent = require('./webContentStructure.js');
 const documents = require('./documents');
 const vocabularies = require('./vocabularies');
+const channel = require('./commerce-channel');
+const catalogs = require('./commerce-catalogs');
+const commerceOptions = require('./commerce-options');
 const fragments = require('./fragments');
 const widget = require('./widgetTemplate.js');
 const applications = require('../services/applications');
@@ -17,15 +20,19 @@ async function start() {
     widget.start();
     thumbnail.start();
     vocabularies.start();
-    webcontent.start(); 
+    webcontent.start();
     documents.start();
     fragments.start();
+    channel.start();
+    catalogs.start();
+    commerceOptions.start();
 }
 async function setupUserInformation() {
     var currentAccount = await applications.getMyUser();
     var userAccount = await applications.getUserAccountJSONAPIs(currentAccount.id);
     config.setUserId(currentAccount.id);
     config.setCompanyId(userAccount.companyId);
+    config.setDefaultLanguage(userAccount.languageId);
 }
 module.exports = {
     start
