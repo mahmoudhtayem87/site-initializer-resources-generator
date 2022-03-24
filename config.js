@@ -26,6 +26,10 @@ function setCommereChannel(commerceChannelId)
 {
     global._config.commerceChannelId = commerceChannelId;
 }
+function setDefaultLanguage(languageId)
+{
+    global._config.defaultLanguageId = languageId;
+}
 function config()
 {
     return global._config;
@@ -37,5 +41,6 @@ module.exports = {
     setCompanyId,
     setFriendlyUrlPath,
     setUserId,
-    setCommereChannel
+    setCommereChannel,
+    setDefaultLanguage
 };

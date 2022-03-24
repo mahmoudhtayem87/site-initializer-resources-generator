@@ -140,7 +140,7 @@ async function getCommerceChannels() {
       if (error) {
         reject(error)
       };
-      resolve(JSON.parse(response.body).items);
+        resolve(JSON.parse(response.body).items);
     });
   });
 }
@@ -342,6 +342,25 @@ async function getResourceClassName(key)
   });
 }
 
+async function getCommerceOptions() {
+  var url = `${config.config().liferay.host}/o/headless-commerce-admin-catalog/v1.0/options?page=0&pageSize=999999`;
+  return new Promise(function (resolve, reject) {
+      var options = {
+          'method': 'GET',
+          'url': url,
+          'headers': {
+              'Authorization': helper.getAuthHeader(config)
+          }
+      };
+      request(options, function (error, response) {
+          if (error) {
+              reject(error)
+          };
+          resolve(JSON.parse(response.body));
+      });
+  });
+}
+
 module.exports = {
   getContentStructures,
   getRootDocuments,
@@ -360,5 +379,6 @@ module.exports = {
   getMyUser,
   getUserAccountJSONAPIs,
   getWidgetDisplayTemplates,
-  getResourceClassName
+  getResourceClassName,
+  getCommerceOptions
 }

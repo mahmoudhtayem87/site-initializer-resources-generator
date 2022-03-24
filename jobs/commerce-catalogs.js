@@ -10,7 +10,6 @@ const helper = require('../helper');
 
 const rootDir = './output/resources/site-initializer/commerce-catalogs';
 
-
 async function start() {
   await helper.checkFolder(rootDir);
   var rows = await applications.getCommerceCatalogs();
@@ -41,38 +40,6 @@ async function exportCatalog(catalogName, element) {
     "name": element.name
   };
   await helper.createFile(JSON.stringify(catalogData), rootDir, catalogName + ".json");
-  //exportOptions(catalogName)
-}
-
-async function exportOptions(catalogName) {
-  var rows = await new Promise(function (resolve, reject) {
-    var options = {
-      'method': 'GET',
-      'url': `${config.config().liferay.host}/o/headless-commerce-admin-catalog/v1.0/options?page=0&pageSize=999999`,
-      'headers': {
-        'Authorization': helper.getAuthHeader(config)
-      }
-    };
-    request(options, function (error, response) {
-      if (error) {
-        reject(error)
-      };
-      resolve(JSON.parse(response.body));
-    });
-  });
-
-  if (rows == null || rows.items == null || rows.items.length <= 0) {
-    console.info(`No Commerce Options found!`);
-    return;
-  }
-  var optionsData = [];
-  for (let index = 0; index < rows.items.length; index++) {
-    const element = rows.items[index];
-    optionsData.push(
-
-    );
-  }
-  await helper.createFile(JSON.stringify(optionsData), rootDir, catalogName + "-options.json");
 }
 
 async function downloadProductImages(catalogName, element) {
