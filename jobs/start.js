@@ -8,16 +8,25 @@ const webcontent = require('./webContentStructure.js');
 const documents = require('./documents');
 const vocabularies = require('./vocabularies');
 const fragments = require('./fragments');
+const widget = require('./widgetTemplate.js');
+const applications = require('../services/applications');
+const config = require('../config');
+async function start() {
 
-function start()
-{
+    await setupUserInformation();
+    widget.start();
     thumbnail.start();
     vocabularies.start();
     webcontent.start(); 
     documents.start();
     fragments.start();
 }
-
+async function setupUserInformation() {
+    var currentAccount = await applications.getMyUser();
+    var userAccount = await applications.getUserAccountJSONAPIs(currentAccount.id);
+    config.setUserId(currentAccount.id);
+    config.setCompanyId(userAccount.companyId);
+}
 module.exports = {
     start
 }

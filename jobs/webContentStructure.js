@@ -1,7 +1,7 @@
 /**
  * @author Mahmoud Hussein Tayem
  * @description this job is used to pull all of  Web Content Structures
- * and store them in the site site initializer required format
+ * and store them in the site initializer required format
  */
 var dir = './output/resources/site-initializer/ddm-structures';
 const webContentArticle = require('./webContentArticle.js');

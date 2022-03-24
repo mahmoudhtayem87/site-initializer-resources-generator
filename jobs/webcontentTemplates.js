@@ -1,7 +1,7 @@
 /**
  * @author Mahmoud Hussein Tayem
  * @description this job is used to pull all of the web content templates for a specific web content 
- * structure and store them in the site site initializer required format
+ * structure and store them in the site initializer required format
  */
 var dir = './output/resources/site-initializer/ddm-templates';
 const applications = require('../services/applications');
