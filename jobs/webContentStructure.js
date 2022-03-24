@@ -25,17 +25,10 @@ async function getXMLData(element) {
     root = root.up();
     root = root.ele("definition").cdata(JSON.stringify(await applications.getContentStructureWebDav(element.id)));
     root = root.end({ pretty: true });
-    await createFile(root, structureName + ".xml");
+    await helper.checkFolder(dir);
+    await helper.createFile(root, dir, structureName + ".xml");
 }
 
-async function createFile(filedata, filename) {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-    }
-    fs.writeFile(`${dir}/${filename}`, filedata, function (err) {
-        if (err) return console.error(err);
-    });
-}
 async function start() {
     var data = await applications.getContentStructures();
     webContentTemplates.start(data);
