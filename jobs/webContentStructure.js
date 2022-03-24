@@ -12,7 +12,6 @@ const config = require('../config');
 fs = require('fs');
 var builder = require('xmlbuilder');
 const { XMLParser } = require('fast-xml-parser');
-const helper = require('../helper');
 
 async function getXMLData(element) {
     const parser = new XMLParser();

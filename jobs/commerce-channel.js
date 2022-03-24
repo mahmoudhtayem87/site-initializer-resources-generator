@@ -1,3 +1,7 @@
+/**
+ * @author Peter Richards
+ * @description this job is used to pull the Commerce channel
+ */
 const request = require('request');
 
 const config = require('../config');

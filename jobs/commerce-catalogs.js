@@ -1,3 +1,7 @@
+/**
+ * @author Peter Richards
+ * @description this job is used to pull the Commerce catalog
+ */
 const request = require('request');
 
 const applications = require('../services/applications');
