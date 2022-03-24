@@ -19,52 +19,37 @@ async function createFile(filedata, filename, dir) {
     });
 }
 async function createVocabulary(vocabulary) {
-    console.log("voc: " + vocabulary.name);
+
+    const vocabularyDir = dir + "/" + vocabulary.name.toLowerCase();
+
     let vocJson = {
         "description": vocabulary.description,
         "externalReferenceCode": vocabulary.name.toUpperCase().replace(/\s/g, ''),
         "name": vocabulary.name,
         "viewableBy": "Anyone"
     };
+
     await createFile(JSON.stringify(vocJson), vocabulary.name.toLowerCase() + ".json",dir);
-    const vocabularyDir = dir + "/" + vocabulary.name.toLowerCase();
     await createFolder(vocabularyDir);
     await createCategories(vocabularyDir,vocabulary.id);
 }
 async function createCategory(dir, parentCatId) {
     var data = await applications.getSubCategories(parentCatId);
-    console.log("-----------------");
-    console.log(data);
-    for (let index = 0; index < data.items.length; index++) {
-        const category = data.items[index];
-        if (category.numberOfTaxonomyCategories > 0) {
-            const catDir = dir + "/" + category.name;
-            await createFolder(catDir);
-            createCategory(catDir,category.id);
-        }
-        // create json
-        let categoryJson = {
-            "description": category.description,
-            "externalReferenceCode": category.name.toUpperCase().replace(/\s/g, ''),
-            "name": category.name,
-            "viewableBy": "Anyone"
-        };
-        createFile(JSON.stringify(categoryJson), category.name + ".json",dir);
-    }
+    processCategories(dir,data);
 }
 async function createCategories(dir, vocabularyId) {
     var data = await applications.getCategories(vocabularyId);
-    console.log(data);
+    processCategories(dir,data);    
+}
+async function processCategories(dir, data) {
     for (let index = 0; index < data.items.length; index++) {
         const category = data.items[index];
         if (category.numberOfTaxonomyCategories > 0) {
-            // create folder for children
             const catDir = dir + "/" + category.name;
             await createFolder(catDir);
-            // TODO call recursive/traversing function
             createCategory(catDir,category.id);
         }
-        // create json
+
         let categoryJson = {
             "description": category.description,
             "externalReferenceCode": category.name.toUpperCase().replace(/\s/g, ''),
