@@ -40,6 +40,35 @@ async function selectSite() {
         var site = SitesMap.filter(site => site.value === respo.groupId)[0];
         config.setSiteId(site.groupId);
         config.setFriendlyUrlPath(site.friendlyUrlPath);
+        selectCommerceChannel();
+    });
+}
+
+async function selectCommerceChannel() {
+    var ChannelMap = [];
+    var channels = await applications.getCommerceChannels();
+    var _choices = [];
+    var char = 'A';
+    for (index = 0; index < channels.length; index++) {
+        var choice = channels[index].name;
+        ChannelMap.push({
+            key: char,
+            id: channels[index].id,
+            value: channels[index].name,
+        });
+        _choices.push(choice);
+        char = String.fromCharCode(char.charCodeAt(char.length - 1) + 1);
+    }
+    inquirer.prompt([
+        {
+            type: 'list',
+            name: 'name',
+            message: 'Which channel you are trying to export?',
+            choices: _choices,
+        },
+    ]).then(respo => {
+        var channel = ChannelMap.filter(channel => channel.value === respo.name)[0];
+        config.setCommereChannel(channel.id);
         start.start();
     });
 }
@@ -48,15 +77,15 @@ async function setup() {
         {
             name: 'LRHost',
             message: 'What is your Liferay Portal URL?',
-            default: 'http://localhost:8080'
+            default: 'https://webserver-lctliferaybotics-prd.lfr.cloud'
         }, {
             name: 'LRUser',
             message: 'What is your Liferay Portal admin user?',
-            default: 'admin@lifeinsurances.com'
+            default: 'test@liferaybotics.com'
         }, {
             name: 'LRPassword',
             message: 'What is your Liferay Portal admin password?',
-            default: 'L1feray$'
+            default: 'Gloria1234!'
         }
     ]).then(answers => {
         config.setup(answers.LRHost, answers.LRUser, answers.LRPassword);

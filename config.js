@@ -22,6 +22,14 @@ function setFriendlyUrlPath(friendlyUrlPath)
 {
     global._config.friendlyUrlPath = friendlyUrlPath;
 }
+function setCommereChannel(commerceChannelId)
+{
+    global._config.commerceChannelId = commerceChannelId;
+}
+function setDefaultLanguage(languageId)
+{
+    global._config.defaultLanguageId = languageId;
+}
 function config()
 {
     return global._config;
@@ -32,5 +40,7 @@ module.exports = {
     setSiteId,
     setCompanyId,
     setFriendlyUrlPath,
-    setUserId
+    setUserId,
+    setCommereChannel,
+    setDefaultLanguage
 };

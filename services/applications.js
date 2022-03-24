@@ -27,8 +27,7 @@ async function getContentStructures() {
       'method': 'GET',
       'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/content-structures`,
       'headers': {
-        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-          + ":" + config.config().liferay.password).toString("base64")
+        'Authorization': helper.getAuthHeader(config)
       }
     };
     request(options, function (error, response) {
@@ -81,8 +80,7 @@ async function getSites() {
       'method': 'GET',
       'url': `${config.config().liferay.host}/o/headless-admin-user/v1.0/my-user-account/sites`,
       'headers': {
-        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-          + ":" + config.config().liferay.password).toString("base64")
+        'Authorization': helper.getAuthHeader(config)
       }
     };
     request(options, function (error, response) {
@@ -99,8 +97,7 @@ async function getRootDocuments() {
       'method': 'GET',
       'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/documents?page=0&pageSize=999999`,
       'headers': {
-        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-          + ":" + config.config().liferay.password).toString("base64")
+        'Authorization': helper.getAuthHeader(config)
       }
     };
     request(options, function (error, response) {
@@ -111,6 +108,43 @@ async function getRootDocuments() {
     });
   });
 }
+
+async function getCommerceCatalogs() {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-commerce-admin-catalog/v1.0/catalogs?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': helper.getAuthHeader(config)
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+
+async function getCommerceChannels() {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-commerce-admin-channel/v1.0/channels?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': helper.getAuthHeader(config)
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+        resolve(JSON.parse(response.body).items);
+    });
+  });
+}
+
 async function getRootFolders() {
   return new Promise(function (resolve, reject) {
     var options = {
@@ -308,6 +342,25 @@ async function getResourceClassName(key)
   });
 }
 
+async function getCommerceOptions() {
+  var url = `${config.config().liferay.host}/o/headless-commerce-admin-catalog/v1.0/options?page=0&pageSize=999999`;
+  return new Promise(function (resolve, reject) {
+      var options = {
+          'method': 'GET',
+          'url': url,
+          'headers': {
+              'Authorization': helper.getAuthHeader(config)
+          }
+      };
+      request(options, function (error, response) {
+          if (error) {
+              reject(error)
+          };
+          resolve(JSON.parse(response.body));
+      });
+  });
+}
+
 module.exports = {
   getContentStructures,
   getRootDocuments,
@@ -315,6 +368,8 @@ module.exports = {
   getRootFolders,
   getSubFolders,
   getContentStructureWebDav,
+  getCommerceCatalogs,
+  getCommerceChannels,
   getSubFoldersFiles,
   getJournalArticleByStructureId,
   getJournalArticleById,
@@ -324,5 +379,6 @@ module.exports = {
   getMyUser,
   getUserAccountJSONAPIs,
   getWidgetDisplayTemplates,
-  getResourceClassName
+  getResourceClassName,
+  getCommerceOptions
 }
