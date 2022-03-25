@@ -615,6 +615,25 @@ async function getNavigationMenus()
     });
   });
 }
+async function getServiceAccessPolicies()
+{
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/api/jsonws/sap.sapentry/get-company-sap-entries/company-id/${config.config().companyId}/start/0/end/99999/-order-by-comparator`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+            + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 module.exports = {
   getRoles,
   getContentStructures,
@@ -646,5 +665,6 @@ module.exports = {
   getUsersAccounts,
   getUserRoles,
   getSiteConfiguration,
-  getNavigationMenus
+  getNavigationMenus,
+  getServiceAccessPolicies
 }

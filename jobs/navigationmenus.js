@@ -76,7 +76,6 @@ async function processNavigationMenus(items)
 async function start() {
 
     var menus = await applications.getNavigationMenus();
-
     processNavigationMenus(menus.items);
 
 }

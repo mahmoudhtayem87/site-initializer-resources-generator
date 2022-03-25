@@ -21,9 +21,11 @@ const roles = require("./roles");
 const usersAccounts = require('./useraccounts');
 const siteConfig = require('./siteconfiguration');
 const navMenus = require('./navigationmenus');
+const sap = require('./serviceaccesspolicies');
 async function start() {
 
     await setupUserInformation();
+    sap.start();
     navMenus.start();
     roles.start();
     siteConfig.start();
