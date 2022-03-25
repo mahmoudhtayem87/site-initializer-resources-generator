@@ -14,10 +14,12 @@ const commerceOptions = require('./commerce-options');
 const fragments = require('./fragments');
 const widget = require('./widgetTemplate.js');
 const applications = require('../services/applications');
+const accounts = require("./accounts");
 const config = require('../config');
 async function start() {
 
     await setupUserInformation();
+    accounts.start();
     widget.start();
     layout.start();
     thumbnail.start();

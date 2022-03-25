@@ -486,6 +486,24 @@ async function getLayoutDefinition(pageUrl) {
     });
   });
 }
+async function getAccounts() {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-admin-user/v1.0/accounts?page=0&pageSize=999999`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+            + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 module.exports = {
   getContentStructures,
   getRootDocuments,
@@ -510,5 +528,6 @@ module.exports = {
   getCategories,
   getSubCategories,
   getLayouts,
-  getLayoutDefinition
+  getLayoutDefinition,
+  getAccounts
 }
