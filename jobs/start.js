@@ -11,6 +11,7 @@ const vocabularies = require('./vocabularies');
 const channel = require('./commerce-channel');
 const catalogs = require('./commerce-catalogs');
 const commerceOptions = require('./commerce-options');
+const commerceWarehoses = require('./commerce-inventory-warehouses');
 const fragments = require('./fragments');
 const widget = require('./widgetTemplate.js');
 const applications = require('../services/applications');
@@ -32,8 +33,9 @@ async function start() {
     documents.start();
     fragments.start();
     channel.start();
-    catalogs.start();
     commerceOptions.start();
+    commerceWarehoses.start();
+    catalogs.start();
 }
 async function setupUserInformation() {
     var currentAccount = await applications.getMyUser();

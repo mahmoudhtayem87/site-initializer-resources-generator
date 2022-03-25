@@ -428,35 +428,16 @@ async function getCommerceOptions() {
       resolve(JSON.parse(response.body));
     });
   });
-  async function getLayouts(privateLayout) {
-    var url = `${config.config().liferay.host}/api/jsonws/layout/get-layouts/group-id/${config.config().siteId}/private-layout/${privateLayout}/keywords/types/start/0/end/99999/-order-by-comparator`;
-    return new Promise(function (resolve, reject) {
-      var options = {
-        'method': 'GET',
-        'url': url,
-        'headers': {
-          'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-            + ":" + config.config().liferay.password).toString("base64")
-        }
-      };
-      request(options, function (error, response) {
-        if (error) {
-          reject(error)
-        };
-        resolve(JSON.parse(response.body));
-      });
-    });
-  }
 }
-async function getLayoutDefinition(pageUrl) {
-  var url = `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/site-pages/${pageUrl}`;
+async function getLayouts(privateLayout) {
+  var url = `${config.config().liferay.host}/api/jsonws/layout/get-layouts/group-id/${config.config().siteId}/private-layout/${privateLayout}/keywords/types/start/0/end/99999/-order-by-comparator`;
   return new Promise(function (resolve, reject) {
     var options = {
       'method': 'GET',
       'url': url,
       'headers': {
         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-            + ":" + config.config().liferay.password).toString("base64")
+          + ":" + config.config().liferay.password).toString("base64")
       }
     };
     request(options, function (error, response) {
@@ -475,7 +456,26 @@ async function getLayoutDefinition(pageUrl) {
       'url': url,
       'headers': {
         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-            + ":" + config.config().liferay.password).toString("base64")
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+async function getLayoutDefinition(pageUrl) {
+  var url = `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/site-pages/${pageUrl}`;
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': url,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+          + ":" + config.config().liferay.password).toString("base64")
       }
     };
     request(options, function (error, response) {
@@ -493,7 +493,25 @@ async function getAccounts() {
       'url': `${config.config().liferay.host}/o/headless-admin-user/v1.0/accounts?page=0&pageSize=999999`,
       'headers': {
         'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
-            + ":" + config.config().liferay.password).toString("base64")
+          + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+async function getCommerceWarehouses() {
+  var url = `${config.config().liferay.host}/o/headless-commerce-admin-inventory/v1.0/warehouses?page=0&pageSize=999999`;
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': url,
+      'headers': {
+        'Authorization': helper.getAuthHeader(config)
       }
     };
     request(options, function (error, response) {
@@ -586,6 +604,7 @@ module.exports = {
   getLayouts,
   getLayoutDefinition,
   getAccounts,
+  getCommerceWarehouses
   getUsersAccounts,
   getUserRoles
 }
