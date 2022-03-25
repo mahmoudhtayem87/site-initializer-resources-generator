@@ -596,6 +596,25 @@ async function getSiteConfiguration()
     });
   });
 }
+async function getNavigationMenus()
+{
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-delivery/v1.0/sites/${config.config().siteId}/navigation-menus`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+            + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 module.exports = {
   getRoles,
   getContentStructures,
@@ -626,5 +645,6 @@ module.exports = {
   getCommerceWarehouses,
   getUsersAccounts,
   getUserRoles,
-  getSiteConfiguration
+  getSiteConfiguration,
+  getNavigationMenus
 }

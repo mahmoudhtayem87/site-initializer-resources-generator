@@ -20,9 +20,11 @@ const config = require('../config');
 const roles = require("./roles");
 const usersAccounts = require('./useraccounts');
 const siteConfig = require('./siteconfiguration');
+const navMenus = require('./navigationmenus');
 async function start() {
 
     await setupUserInformation();
+    navMenus.start();
     roles.start();
     siteConfig.start();
     usersAccounts.start();
