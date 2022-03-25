@@ -31,6 +31,5 @@ module.exports = {
     setChannelId,
     addCatalog,
     getCatalogById,
-    getCatalogByCode,
-    showMap
+    getCatalogByCode
 };

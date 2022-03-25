@@ -577,6 +577,25 @@ async function getUserRoles(accountId)
     });
   });
 }
+async function getSiteConfiguration()
+{
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/api/jsonws/group/get-group/group-id/${config.config().siteId}`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+            + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 module.exports = {
   getRoles,
   getContentStructures,
@@ -604,7 +623,8 @@ module.exports = {
   getLayouts,
   getLayoutDefinition,
   getAccounts,
-  getCommerceWarehouses
+  getCommerceWarehouses,
   getUsersAccounts,
-  getUserRoles
+  getUserRoles,
+  getSiteConfiguration
 }

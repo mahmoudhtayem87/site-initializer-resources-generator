@@ -19,10 +19,12 @@ const accounts = require("./accounts");
 const config = require('../config');
 const roles = require("./roles");
 const usersAccounts = require('./useraccounts');
+const siteConfig = require('./siteconfiguration');
 async function start() {
 
     await setupUserInformation();
     roles.start();
+    siteConfig.start();
     usersAccounts.start();
     accounts.start();
     widget.start();
