@@ -23,8 +23,10 @@ async function createFile(filedata, filename) {
 async function processUsersAccounts(accounts)
 {
     var _account = [];
+    var _roles = [];
     for(let index = 0 ; index < accounts.length ; index++)
     {
+        //get user account
         var account = {
             "accountBriefs": accounts[index].accountBriefs,
             "alternateName": accounts[index].alternateName,
@@ -34,7 +36,21 @@ async function processUsersAccounts(accounts)
             "name": accounts[index].name
         };
         _account.push(account);
+        //get user account roles
+        var userRolesData = (await  applications.getUserRoles(accounts[index].id));
+        var userJsonRoles = [];
+        for(let sub = 0 ; sub < userRolesData.length ; sub++)
+        {
+            userJsonRoles.push(userRolesData[sub].titleCurrentValue);
+        }
+        var user_roles = {
+                "emailAddress": accounts[index].emailAddress,
+                "roles": userJsonRoles
+            };
+        _roles.push(user_roles);
+        userRolesData = [];
     }
+    await createFile(JSON.stringify(_roles),"user-roles.json");
     await createFile(JSON.stringify(_account),"user-accounts.json");
 }
 async function start() {
