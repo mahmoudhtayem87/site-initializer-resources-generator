@@ -16,9 +16,11 @@ const widget = require('./widgetTemplate.js');
 const applications = require('../services/applications');
 const accounts = require("./accounts");
 const config = require('../config');
+const roles = require("./roles");
 async function start() {
 
     await setupUserInformation();
+    roles.start();
     accounts.start();
     widget.start();
     layout.start();
