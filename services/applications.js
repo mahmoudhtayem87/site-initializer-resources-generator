@@ -522,7 +522,24 @@ async function getRoles(roleType) {
     });
   });
 }
-
+async function getUsersAccounts() {
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/headless-admin-user/v1.0/user-accounts`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+            + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 module.exports = {
   getRoles,
   getContentStructures,
@@ -549,5 +566,6 @@ module.exports = {
   getSubCategories,
   getLayouts,
   getLayoutDefinition,
-  getAccounts
+  getAccounts,
+  getUsersAccounts
 }

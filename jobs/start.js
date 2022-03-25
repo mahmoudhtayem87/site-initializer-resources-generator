@@ -17,10 +17,12 @@ const applications = require('../services/applications');
 const accounts = require("./accounts");
 const config = require('../config');
 const roles = require("./roles");
+const usersAccounts = require('./useraccounts');
 async function start() {
 
     await setupUserInformation();
     roles.start();
+    usersAccounts.start();
     accounts.start();
     widget.start();
     layout.start();
