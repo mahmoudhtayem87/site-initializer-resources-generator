@@ -29,9 +29,9 @@ async function start() {
     documents.start();
     fragments.start();
     channel.start();
-    catalogs.start();
     commerceOptions.start();
     commerceWarehoses.start();
+    catalogs.start();
 }
 async function setupUserInformation() {
     var currentAccount = await applications.getMyUser();
