@@ -26,6 +26,7 @@ const sap = require('./serviceaccesspolicies');
 async function start() {
 
     await setupUserInformation();
+
     sap.start();
     navMenus.start();
     roles.start();
@@ -34,7 +35,11 @@ async function start() {
     accounts.start();
     widget.start();
     layout.start();
-    thumbnail.start();
+
+    if (config.config().generateThumbnail) {
+        thumbnail.start();
+    }
+    
     vocabularies.start();
     webcontent.start();
     documents.start();
@@ -46,8 +51,8 @@ async function start() {
     products.start();
 }
 async function setupUserInformation() {
-    var currentAccount = await applications.getMyUser();
-    var userAccount = await applications.getUserAccountJSONAPIs(currentAccount.id);
+    const currentAccount = await applications.getMyUser();
+    const userAccount = await applications.getUserAccountJSONAPIs(currentAccount.id);
     config.setUserId(currentAccount.id);
     config.setCompanyId(userAccount.companyId);
     config.setDefaultLanguage(userAccount.languageId);

@@ -87,10 +87,16 @@ async function setup() {
         }, {
             name: 'LRPassword',
             message: 'What is your Liferay Portal admin password?',
-            default: 'L1feray$'
+            default: 'L1feray$',
+            type: 'password'
+        }, {
+            name: 'GenerateThumbnail',
+            message: 'Would you like to generate a thumnbnail image?',
+            default: true,
+            type: 'confirm'
         }
     ]).then(answers => {
-        config.setup(answers.LRHost, answers.LRUser, answers.LRPassword);
+        config.setup(answers.LRHost, answers.LRUser, answers.LRPassword,answers.GenerateThumbnail);
         selectSite();
     });
 

@@ -1,9 +1,10 @@
 
-function setup(LRHost,LRUser,LRPassword)
+function setup(LRHost,LRUser,LRPassword,GenerateThumbnail)
 {
     global._config.liferay.host=LRHost;
     global._config.liferay.user=LRUser;
     global._config.liferay.password=LRPassword;
+    global._config.generateThumbnail=GenerateThumbnail;
 }
 
 function setSiteId(siteId)
