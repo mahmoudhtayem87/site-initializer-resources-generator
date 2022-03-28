@@ -10,12 +10,15 @@ function getCatalogById(id) {
     return global._config.commerceContext.catalogMap.get(id);
 }
 function getCatalogByCode(code) {
-    for (const value of global._config.commerceContext.catalogMap.values()) {
+    for (const value of getCatalogs()) {
         if (value.code == code) {
             return value;
         }
         return undefined;
     }
+}
+function getCatalogs() {
+    return global._config.commerceContext.catalogMap.values();
 }
 function setChannelId(channelId)
 {
@@ -31,5 +34,6 @@ module.exports = {
     setChannelId,
     addCatalog,
     getCatalogById,
-    getCatalogByCode
+    getCatalogByCode,
+    getCatalogs
 };
