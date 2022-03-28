@@ -1,3 +1,4 @@
+const config = require('./config');
 const fs = require('fs');
 
 var builder = require('xmlbuilder');
@@ -31,6 +32,11 @@ function emptyOrRows(rows) {
     return rows;
 }
 
+async function getLocalizedValue(value, languageId) {
+    const defaultLanguageId = languageId ? languageId : config.config().defaultLanguageId;
+    return value[defaultLanguageId] ? value[defaultLanguageId] : '';
+  }
+
 function getAuthHeader(config) {
     return "Basic " + new Buffer.from(config.config().liferay.user + ":" + config.config().liferay.password).toString("base64")
 }
@@ -54,5 +60,6 @@ module.exports = {
     getAuthHeader,
     checkFolder,
     createFile,
+    getLocalizedValue,
     getNameTree
 }
