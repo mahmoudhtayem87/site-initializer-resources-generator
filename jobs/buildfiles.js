@@ -20,7 +20,7 @@
 
     // create build.gradle
     data = `dependencies {
-        compileOnly group: \"com.liferay.portal\", name: \"release.portal.api\"
+        compileOnly group: "com.liferay.portal", name: "release.portal.api"
     }`;
     createFile(data,"build.gradle",dir);
 
