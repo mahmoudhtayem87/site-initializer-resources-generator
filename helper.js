@@ -48,6 +48,7 @@ async function checkFolder(dir) {
 }
 
 async function createFile(filedata, dir, filename) {
+    checkFolder(dir);
     fs.writeFile(`${dir}/${filename}`, filedata, function (err) {
       if (err) return console.error(err);
     });
