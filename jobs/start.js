@@ -23,9 +23,12 @@ const usersAccounts = require('./useraccounts');
 const siteConfig = require('./siteconfiguration');
 const navMenus = require('./navigationmenus');
 const sap = require('./serviceaccesspolicies');
+const buildfiles = require('./buildfiles');
 async function start() {
 
     await setupUserInformation();
+
+    buildfiles.start();
 
     sap.start();
     navMenus.start();
