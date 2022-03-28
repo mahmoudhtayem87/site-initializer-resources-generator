@@ -46,7 +46,7 @@ async function start() {
     fragments.start();
     channel.start();
     commerceOptions.start();
-    commerceWarehoses.start();
+    await commerceWarehoses.start();
     await catalogs.start();
     products.start();
 }
