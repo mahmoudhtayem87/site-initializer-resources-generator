@@ -1,6 +1,7 @@
 function setup(channelId) {
     global._config.commerceContext = {};
     global._config.commerceContext.catalogMap = new Map();
+    global._config.commerceContext.warehouseMap = new Map();
     setChannelId(channelId);
 }
 function addCatalog(catalog) {
@@ -20,6 +21,23 @@ function getCatalogByCode(code) {
 function getCatalogs() {
     return global._config.commerceContext.catalogMap.values();
 }
+function addWarehose(warehose) {
+    global._config.commerceContext.warehouseMap.set(warehose.name, warehose);
+}
+function getWarehouseByName(name) {
+    return global._config.commerceContext.warehouseMap.get(name);
+}
+function getWarehouseByCode(code) {
+    for (const value of getWarehouses()) {
+        if (value.code == code) {
+            return value;
+        }
+        return undefined;
+    }
+}
+function getWarehouses() {
+    return global._config.commerceContext.warehouseMap.values();
+}
 function setChannelId(channelId)
 {
     global._config.commerceContext.channelId = channelId;
@@ -35,5 +53,9 @@ module.exports = {
     addCatalog,
     getCatalogById,
     getCatalogByCode,
-    getCatalogs
+    getCatalogs,
+    addWarehose,
+    getWarehouseByName,
+    getWarehouseByCode,
+    getWarehouses
 };

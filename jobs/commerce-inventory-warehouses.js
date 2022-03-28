@@ -8,6 +8,7 @@ const applications = require('../services/applications');
 
 const config = require('../config');
 const helper = require('../helper');
+const commerceContext = require('../commerceContext');
 
 const rootDir = './output/resources/site-initializer';
 
@@ -22,6 +23,11 @@ async function start() {
     var warehousesData = [];
     for (let index = 0; index < rows.items.length; index++) {
         const element = rows.items[index];
+        commerceContext.addWarehose({
+            "name": element.name,
+            "code": element.externalReferenceCode,
+            "index": index
+        });
         warehousesData.push({
             "active": element.active,
             "city": element.city,
