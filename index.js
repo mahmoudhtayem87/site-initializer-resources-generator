@@ -106,7 +106,7 @@ async function setup() {
             type: 'confirm'
         }, {
             name: 'exportCommerce',
-            message: 'Would you like to export a Commerce channel?',
+            message: 'Would you like to export Commerce?',
             default: true,
             type: 'confirm'
         }
