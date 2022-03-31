@@ -103,7 +103,7 @@ async function processPublicPages() {
     var rows = await applications.getLayouts(false);
 
     if (rows == null || rows == null || rows.length <= 0) {
-        console.info(`No Private Pages found!`);
+        console.info(`No Public Pages found!`);
         return;
     }
     for (let index = 0; index < rows.length; index++) {
