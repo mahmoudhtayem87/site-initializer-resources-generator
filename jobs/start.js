@@ -28,6 +28,8 @@ async function start() {
 
     await setupUserInformation();
 
+    const cfg = config.config();
+
     buildfiles.start();
 
     sap.start();
@@ -39,7 +41,7 @@ async function start() {
     widget.start();
     layout.start();
 
-    if (config.config().generateThumbnail) {
+    if (cfg.generateThumbnail) {
         thumbnail.start();
     }
     
@@ -47,11 +49,14 @@ async function start() {
     webcontent.start();
     documents.start();
     fragments.start();
-    channel.start();
-    commerceOptions.start();
-    await commerceWarehoses.start();
-    await catalogs.start();
-    products.start();
+
+    if (cfg.exportCommerce) {
+        channel.start();
+        commerceOptions.start();
+        await commerceWarehoses.start();
+        await catalogs.start();
+        products.start();
+    }
 }
 async function setupUserInformation() {
     const currentAccount = await applications.getMyUser();

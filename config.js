@@ -1,10 +1,11 @@
 
-function setup(LRHost,LRUser,LRPassword,GenerateThumbnail)
+function setup(LRHost,LRUser,LRPassword,GenerateThumbnail,ExportCommerce)
 {
     global._config.liferay.host=LRHost;
     global._config.liferay.user=LRUser;
     global._config.liferay.password=LRPassword;
     global._config.generateThumbnail=GenerateThumbnail;
+    global._config.exportCommerce=ExportCommerce;
 }
 
 function setSiteId(siteId)
@@ -27,6 +28,9 @@ function setDefaultLanguage(languageId)
 {
     global._config.defaultLanguageId = languageId;
 }
+function setExportCommerce(exportCommerce) {
+    global._config.exportCommerce = exportCommerce;
+}
 function config()
 {
     return global._config;
@@ -38,5 +42,6 @@ module.exports = {
     setCompanyId,
     setFriendlyUrlPath,
     setUserId,
-    setDefaultLanguage
+    setDefaultLanguage,
+    setExportCommerce
 };
