@@ -89,15 +89,15 @@ async function setup() {
         {
             name: 'LRHost',
             message: 'What is your Liferay Portal URL?',
-            default: 'https://webserver-lctliferaybotics-prd.lfr.cloud'
+            default: config.config().liferay.host
         }, {
             name: 'LRUser',
             message: 'What is your Liferay Portal admin user?',
-            default: 'test@liferaybotics.com'
+            default: config.config().liferay.user
         }, {
             name: 'LRPassword',
             message: 'What is your Liferay Portal admin password?',
-            default: 'Gloria1234!',
+            default: config.config().liferay.password,
             type: 'password'
         }, {
             name: 'GenerateThumbnail',

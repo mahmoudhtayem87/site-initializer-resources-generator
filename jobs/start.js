@@ -24,6 +24,7 @@ const siteConfig = require('./siteconfiguration');
 const navMenus = require('./navigationmenus');
 const sap = require('./serviceaccesspolicies');
 const buildfiles = require('./buildfiles');
+const picklists = require('./picklists');
 async function start() {
 
     await setupUserInformation();
@@ -33,6 +34,7 @@ async function start() {
     buildfiles.start();
 
     sap.start();
+    picklists.start();
     navMenus.start();
     roles.start();
     siteConfig.start();
