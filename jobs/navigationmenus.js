@@ -9,7 +9,6 @@ const config = require('../config');
 const helper = require('../helper');
 fs = require('fs');
 
-
 async function createFile(filedata, filename) {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, {recursive: true});
@@ -19,17 +18,15 @@ async function createFile(filedata, filename) {
     });
 }
 
-
-
 function processItem(item)
 {
     if(item.navigationMenuItems == null || item.navigationMenuItems.length <=0)
         return {
-            "friendlyURL": element.link,
+            "friendlyURL": "",
             "privateLayout": false,
-            "type": element.link,
-            "name": element.name,
-            "url": element.link
+            "type": "",
+            "name": "",
+            "url": ""
         };
     var items = [];
     for(let index = 0 ; index < item.navigationMenuItems.length ; index++)
@@ -60,6 +57,7 @@ function processItem(item)
     };
 
 }
+
 async function processNavigationMenus(items)
 {
     var _items = [];
@@ -73,6 +71,7 @@ async function processNavigationMenus(items)
     }
     await createFile(JSON.stringify(_items),"site-navigation-menus.json");
 }
+
 async function start() {
 
     var menus = await applications.getNavigationMenus();
@@ -83,6 +82,3 @@ async function start() {
 module.exports = {
     start
 }
-
-
-
