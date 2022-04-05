@@ -25,6 +25,7 @@ const navMenus = require('./navigationmenus');
 const sap = require('./serviceaccesspolicies');
 const buildfiles = require('./buildfiles');
 const picklists = require('./picklists');
+const objects = require('./objects');
 async function start() {
 
     await setupUserInformation();
@@ -34,6 +35,7 @@ async function start() {
     buildfiles.start();
 
     sap.start();
+    objects.start();
     picklists.start();
     navMenus.start();
     roles.start();

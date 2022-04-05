@@ -672,6 +672,64 @@ async function getPickListEntires(listId)
     });
   });
 }
+async function getObjectDefinitions()
+{
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/object-admin/v1.0/object-definitions`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+            + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+async function getObjectEntires(object)
+{
+  return new Promise(function (resolve, reject) {
+
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/c/${object}/`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+            + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
+async function getObjectDefinition(objectId)
+{
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/api/jsonws/object.objectdefinition/get-object-definition/object-definition-id/${objectId}`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+            + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 module.exports = {
   getRoles,
   getContentStructures,
@@ -706,5 +764,8 @@ module.exports = {
   getNavigationMenus,
   getServiceAccessPolicies,
   getPickLists,
-  getPickListEntires
+  getPickListEntires,
+  getObjectDefinitions,
+  getObjectEntires,
+  getObjectDefinition
 }
