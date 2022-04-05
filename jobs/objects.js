@@ -7,6 +7,7 @@ var dir = './output/resources/site-initializer/object-definitions/';
 const applications = require('../services/applications');
 const config = require('../config');
 const helper = require('../helper');
+const objectRelationships = require('./objectrelationships');
 
 fs = require('fs');
 
@@ -37,6 +38,7 @@ async function processObject(object) {
     createFile(JSON.stringify(objectDef),`${object.name.replace(" ", "-")}.json`);
     if(!object.system)
     {
+        var objId = object.id;
         object = await applications.getObjectDefinition(object.id);
         var data = (await applications.getObjectEntires(object.pluralLabelCurrentValue.toLowerCase())).items;
         var dataObjects = [];
@@ -51,6 +53,7 @@ async function processObject(object) {
             dataObjects.push(item);
         }
         createFile(JSON.stringify(dataObjects),`${object.labelCurrentValue.replace(" ", "-")}.object-entries.json`);
+        objectRelationships.start(objId);
     }
 }
 

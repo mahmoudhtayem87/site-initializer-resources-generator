@@ -730,6 +730,25 @@ async function getObjectDefinition(objectId)
     });
   });
 }
+async function getObjectRelationships(objectDefinitionId)
+{
+  return new Promise(function (resolve, reject) {
+    var options = {
+      'method': 'GET',
+      'url': `${config.config().liferay.host}/o/object-admin/v1.0/object-definitions/${objectDefinitionId}/object-relationships`,
+      'headers': {
+        'Authorization': "Basic " + new Buffer.from(config.config().liferay.user
+            + ":" + config.config().liferay.password).toString("base64")
+      }
+    };
+    request(options, function (error, response) {
+      if (error) {
+        reject(error)
+      };
+      resolve(JSON.parse(response.body));
+    });
+  });
+}
 module.exports = {
   getRoles,
   getContentStructures,
@@ -767,5 +786,6 @@ module.exports = {
   getPickListEntires,
   getObjectDefinitions,
   getObjectEntires,
-  getObjectDefinition
+  getObjectDefinition,
+  getObjectRelationships
 }
